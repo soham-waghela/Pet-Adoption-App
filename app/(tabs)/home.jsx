@@ -1,6 +1,8 @@
 import { View, Text } from "react-native";
 import React from "react";
 import Header from "../../Components/Home/Header";
+import Slider from "../../Components/Home/Slider";
+import Category from "../../Components/Home/Category";
 
 export default function Home() {
   return (
@@ -16,9 +18,11 @@ export default function Home() {
 
       {/* Slider */}
 
-      {/* Category */}
+      <Slider />
 
-      {/* List of pets */}
+      {/* Category + List of pets */}
+
+      <Category />
 
       {/* Add new pet option */}
     </View>
