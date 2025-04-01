@@ -42,7 +42,7 @@ export default function Slider() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
+    paddingVertical: 0,
   },
   imageContainer: {
     marginHorizontal: 10,
