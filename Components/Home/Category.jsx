@@ -11,11 +11,13 @@ import React, { useEffect, useState } from "react";
 import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../config/FirebaseConfig";
 import Colors from "./../../constants/Colors";
+import { useRouter } from "expo-router";
 
 export default function Category() {
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Dog");
   const [petList, setPetList] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     GetCategories();
@@ -89,14 +91,23 @@ export default function Category() {
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <View style={styles.petCard}>
-            <Image source={{ uri: item?.imageurl }} style={styles.petImage} />
-            <Text style={styles.petName}>{item?.name}</Text>
-            <Text style={styles.petBreed}>{item?.breed}</Text>
-            <View style={styles.ageBadge}>
-              <Text style={styles.ageText}>{item?.age} YRS</Text>
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/Pet-details",
+                params: item,
+              })
+            }
+          >
+            <View style={styles.petCard}>
+              <Image source={{ uri: item?.imageurl }} style={styles.petImage} />
+              <Text style={styles.petName}>{item?.name}</Text>
+              <Text style={styles.petBreed}>{item?.breed}</Text>
+              <View style={styles.ageBadge}>
+                <Text style={styles.ageText}>{item?.age} YRS</Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
