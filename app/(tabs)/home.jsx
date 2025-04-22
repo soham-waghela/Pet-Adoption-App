@@ -11,6 +11,7 @@ import Slider from "../../Components/Home/Slider";
 import Category from "../../Components/Home/Category";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Colors from "../../constants/Colors";
+import { Link } from "expo-router";
 
 export default function Home() {
   return (
@@ -30,16 +31,18 @@ export default function Home() {
 
       {/* Add new pet option */}
       <TouchableOpacity style={styles.addNewPet}>
-        <MaterialIcons name="pets" size={24} color={Colors.PRIMARY} />
-        <Text
-          style={{
-            fontFamily: "outfit-medium",
-            color: Colors.PRIMARY,
-            fontSize: 20,
-          }}
-        >
-          Add New Pet
-        </Text>
+        <Link href={"/add-new-pet"}>
+          <MaterialIcons name="pets" size={24} color={Colors.PRIMARY} />
+          <Text
+            style={{
+              fontFamily: "outfit-medium",
+              color: Colors.PRIMARY,
+              fontSize: 20,
+            }}
+          >
+            Add New Pet
+          </Text>
+        </Link>
       </TouchableOpacity>
     </ScrollView>
   );
