@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import Colors from "../../constants/Colors";
 import { Picker } from "@react-native-picker/picker";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/FirebaseConfig";
+import * as ImagePicker from "expo-image-picker";
 
 export default function AddNewPet() {
   const navigation = useNavigation();
@@ -20,6 +22,8 @@ export default function AddNewPet() {
   const [gender, setGender] = useState();
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
+  const [image, setImage] = useState();
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "Add New Pet",
@@ -35,6 +39,22 @@ export default function AddNewPet() {
       console.error("Error fetching categories:", error);
     }
   };
+  //  used to pick image from gallery
+  const imagePicker = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   const handleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({
       ...prev,
@@ -58,17 +78,33 @@ export default function AddNewPet() {
       >
         Add New Pet for Adoption
       </Text>
-      <Image
-        source={require("./../../assets/images/image.png")}
-        style={{
-          width: 100,
-          height: 100,
+      <Pressable onPress={imagePicker}>
+        {!image ? (
+          <Image
+            source={require("./../../assets/images/image.png")}
+            style={{
+              width: 100,
+              height: 100,
 
-          borderRadius: 15,
-          borderWidth: 1,
-          borderColor: Colors.GRAY,
-        }}
-      />
+              borderRadius: 15,
+              borderWidth: 1,
+              borderColor: Colors.GRAY,
+            }}
+          />
+        ) : (
+          <Image
+            source={{ uri: image }}
+            style={{
+              width: 100,
+              height: 100,
+
+              borderRadius: 15,
+              borderWidth: 1,
+              borderColor: Colors.GRAY,
+            }}
+          />
+        )}
+      </Pressable>
       {/* Name */}
       <View style={styles.inputContainer}>
         <Text style={styles.lable}>Pet Name*</Text>
